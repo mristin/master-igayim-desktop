@@ -388,8 +388,15 @@ def update_state(
         state.level.update_dirt(optical_flow_magnitude)
 
 
+# fmt: off
 @require(lambda state: state.game_over is None)
-@require(lambda state: state.prelude is None)
+@require(
+    lambda state:
+    state.prelude is None
+    or state.now < state.prelude.start
+    or state.now >= state.prelude.end
+)
+# fmt: on
 def render_in_game(
     state: State,
     media: Media,
