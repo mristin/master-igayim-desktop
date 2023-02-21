@@ -147,7 +147,7 @@ def crop_and_resize_camera_frame_to_scene(frame_bgr: cv2.Mat) -> cv2.Mat:
 
 
 # Magnitude of optical flow to consider a sweep
-MIN_MAGNITUDE_FOR_SWEEP = 5
+MIN_MAGNITUDE_FOR_SWEEP = 7
 
 
 class Level:
@@ -355,7 +355,7 @@ class OpticalFlower:
 
 
 #: How much dirt to chip off at every sweep
-CLEAN_DELTA = 0.1
+CLEAN_DELTA = 0.05
 
 
 def update_state(
