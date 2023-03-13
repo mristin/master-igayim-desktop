@@ -413,20 +413,19 @@ def render_in_game(
     one_minus_alpha = 1 - alpha
 
     background = frame_bgr.copy()
-
-    combined = state.level.image_bgr.copy()
-    combined[..., 0] = combined[..., 0] * alpha + background[..., 0] * one_minus_alpha
-    combined[..., 1] = combined[..., 1] * alpha + background[..., 1] * one_minus_alpha
-    combined[..., 2] = combined[..., 2] * alpha + background[..., 2] * one_minus_alpha
-
     if optical_flow_magnitude is not None:
         sweeps = np.logical_and(
             optical_flow_magnitude > MIN_MAGNITUDE_FOR_SWEEP, state.level.mask == 1
         )
 
-        combined[sweeps, 0] = 0
-        combined[sweeps, 1] = 0
-        combined[sweeps, 2] = 255
+        background[sweeps, 0] = 255
+        background[sweeps, 1] = 255
+        background[sweeps, 2] = 255
+
+    combined = state.level.image_bgr.copy()
+    combined[..., 0] = combined[..., 0] * alpha + background[..., 0] * one_minus_alpha
+    combined[..., 1] = combined[..., 1] * alpha + background[..., 1] * one_minus_alpha
+    combined[..., 2] = combined[..., 2] * alpha + background[..., 2] * one_minus_alpha
 
     assert combined.shape[0] == SCENE_HEIGHT and combined.shape[1] == SCENE_WIDTH
     scene = cvmat_to_surface(combined)
